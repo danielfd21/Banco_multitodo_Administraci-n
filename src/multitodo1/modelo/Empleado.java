@@ -65,7 +65,118 @@ public class Empleado  extends Gerente{
         
     }
     
-    
+     public boolean Consulta_Loguear(String usu, String cla){
+       
+        boolean estado = false;
+         
+        try(Connection conexion = DriverManager.getConnection("jdbc:mysql://Localhost/inicio_multitodo","root","")){
+            
+            PreparedStatement ingresar = conexion.prepareStatement("SELECT * FROM empleados WHERE Cedula = ? AND clave = ?");
+            ingresar.setString(1, usu);
+            ingresar.setString(2, cla);
+            ResultSet ingresado = ingresar.executeQuery();
+            
+            if(ingresado.next()){
+                
+             estado = true;
+                
+            }
+            
+            
+            
+            
+            
+            
+        }catch(Exception e){
+            
+            JOptionPane.showMessageDialog(null, "Error Consulta Loguear" + e);
+        }
+        
+
+        return estado;
+    }
+     
+     
+    public int Get_ID_Empleado(String ced){
+        
+        int id = 0;
+        
+        
+        try(Connection conexion = DriverManager.getConnection("jdbc:mysql://Localhost/inicio_multitodo","root","")){
+            
+            PreparedStatement obtener = conexion.prepareStatement("SELECT Id_departamento FROM empleados WHERE Cedula = ?");
+            obtener.setString(1, ced);
+            ResultSet obtenido = obtener.executeQuery();
+            
+            if(obtenido.next()){
+                
+                id= obtenido.getInt(1);
+                
+            }
+            
+            
+            
+        }catch(Exception e){
+            
+            JOptionPane.showMessageDialog(null, "Error get_id_empleado");
+        }
+        
+        return id;
+        
+    }
+     
+     
+     public void Loguear(String usuario, String clave){
+         
+         
+         if(!usuario.isEmpty() && !clave.isEmpty()){
+             
+             boolean ver_cre =  Consulta_Loguear(usuario, clave);
+             if(ver_cre == true){
+                 
+                 
+                 int id = Get_ID_Empleado(usuario);
+                 String departamento = getDepartamento(id);
+                 
+                 if(departamento.equals("Gerencia")){
+                     
+                    multitodo1.vista.Gerente.Index_gerente ger = new  multitodo1.vista.Gerente.Index_gerente();
+                    multitodo1.vista.Index.Index index = new  multitodo1.vista.Index.Index();
+                    
+                    
+                    ger.setVisible(true);
+                    index.dispose();
+                    
+                 }else if(departamento.equals("Contabilidad")){
+                     
+                   multitodo1.vista.Empleado.Menu_Cajero emp = new   multitodo1.vista.Empleado.Menu_Cajero();
+                    multitodo1.vista.Index.Index index = new  multitodo1.vista.Index.Index();
+                    
+                    
+                    emp.setVisible(true);
+                    
+                     
+                     
+                     
+                 }else{
+                     
+                     JOptionPane.showMessageDialog(null, "Lo sentimos, su departamento no contiene platafora, estamos trabajando para crear una plataforma para su departamento");
+                 }
+                 
+                 
+                 
+             }
+             
+             
+         }else{
+             JOptionPane.showMessageDialog(null, "Por favor ingrese todos las credenciales de ingreso");
+         }
+         
+         
+         
+     }
+     
+     
     
     public boolean verificar_campo_Empleados(String campo, String obj){
         
@@ -686,46 +797,7 @@ public class Empleado  extends Gerente{
     }
     
     
-    public void Logear(String usu, String cla){
-        
-        if(usu.isEmpty() && cla.isEmpty()){
-            
-            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
-            
-        }else{
-            
-            boolean verificar_u = verificar_Datos_Cuenta("Cedula", usu);
-            
-            if(verificar_u == true){
-                
-                boolean verificar_c = verificar_Datos_Cuenta("Clave", cla);
-                
-                if(verificar_c == true){
-                    
-                    multitodo1.vista.Empleado.Menu_Cajero ind = new multitodo1.vista.Empleado.Menu_Cajero();
-                    multitodo1.vista.Empleado.Empleado_iniciar_cesion cs = new multitodo1.vista.Empleado.Empleado_iniciar_cesion();
-                    
-                    cs.setVisible(false);
-                    
-                    ind.setVisible(true);
-                    
-                    
-                    
-                }else{
-                    
-                    
-                    JOptionPane.showMessageDialog(null, "La contraseña es incorrecta");
-                }
-                
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
-            }
-            
-        }
-        
-        
-    }
+   
     
   
     

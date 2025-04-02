@@ -78,56 +78,7 @@ public class Gerente {
         
     }
     
-    public void Logear_Gerente(String usu, String cla){
-       
-        int id = get_Id_Departamento("Gerencia");
-        
-       
-            
-             if(usu.isEmpty() && cla.isEmpty()){
-            
-            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
-            
-        }else{
-            
-            boolean verificar_u = verificar_Datos_Cuenta("Cedula", usu, id);
-            
-            if(verificar_u == true){
-                
-                boolean verificar_c = verificar_Datos_Cuenta("Clave", cla, id);
-                
-                if(verificar_c == true){
-                    
-                    multitodo1.vista.Gerente.Index_gerente ind = new multitodo1.vista.Gerente.Index_gerente();
-                    multitodo1.vista.Gerente.Gerente_iniciar_cesion cs = new multitodo1.vista.Gerente.Gerente_iniciar_cesion();
-                    
-                    cs.setVisible(false);
-                    
-                    ind.setVisible(true);
-                    
-                    
-                    
-                }else{
-                    
-                    
-                    JOptionPane.showMessageDialog(null, "La contraseña es incorrecta");
-                }
-                
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "El usuario es incorrecto");
-            }
-            
-        }
-            
-       
-        
-        
-        
-       
-        
-        
-    }
+    
     
     
    
